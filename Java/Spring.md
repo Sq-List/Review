@@ -50,3 +50,18 @@
     })
     public User save(User user)
     ```
+    public User save(User user)
+    ```
+
+1. SpEL上下文数据
+
+| 名称 | 位置 | 描述 | 示例 |
+| --- | --- | --- | --- |
+| methodName | root对象 | 当前被调用的方法名 | root.methodName |
+| method | root对象 | 当前被调用的方法 | root.method |
+| target | root对象 | 当前被调用的目标对象 | root.target |
+| targetClass | root对象 | 当前被调用的目标对象类 | root.targetClass |
+| args | root对象 | 当前被调用的方法的参数列表 | root.args[0] |
+| caches | root对象 | 当前方法调用使用的缓存列表（如@Cacheable(value={“cache1”, “cache2”})），则有两个cache | root.caches[0].name |
+| argument name | 执行上下文 | 当前被调用的方法的参数，如findById(Long id)，我们可以通过#id拿到参数 | user.id |
+| result | 执行上下文 | 方法执行后的返回值（仅当方法执行之后的判断有效，如‘unless’，’cache evict’的beforeInvocation=false） | result |
