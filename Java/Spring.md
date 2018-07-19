@@ -1,7 +1,14 @@
 ### 1.缓存注解
+参考：
+[https://www.cnblogs.com/fashflying/p/6908028.html](https://www.cnblogs.com/fashflying/p/6908028.html)
+[https://blog.csdn.net/qq_23121681/article/details/53995666](https://blog.csdn.net/qq_23121681/article/details/53995666)
+
 1. @Cacheable
-    @Cacheable 的作用：
-    主要针对方法配置，能够根据方法的请求参数对其结果进行缓存
+    1. 可以标记在一个方法上，也可以标记在一个类上。当标记在一个方法上时表示该方法是支持缓存的，当标记在一个类上时则表示该类所有的方法都是支持缓存的。
+    1. 对于一个支持缓存的方法，Spring会在其**被调用后**将其返回值缓存起来，以保证下次利用同样的参数来执行该方法时可以直接从缓存中获取结果，而不需要再次执行该方法。Spring在缓存方法的返回值时是以键值对进行缓存的，值就是方法的返回结果
+    1. Spring在每次执行前都会检查Cache中是否存在相同key的缓存元素，如果存在就不再执行该方法，而是直接从缓存中获取结果进行返回，否则才会执行并将返回结果存入指定的缓存中。
+    1. PS:当一个支持缓存的方法在对象内部被调用时是不会触发缓存功能的。
+
     | 参数 | 解释 | example |
     | --- | --- | --- |
     | value | 缓存的名称，在 spring 配置文件中定义，必须指定至少一个 | @Cacheable(value=”mycache”)<br>@Cacheable(value={”cache1”,”cache2”}) |
@@ -9,8 +16,7 @@
     | condition | 缓存的条件，可以为空，使用 SpEL 编写，返回 true 或者 false，只有为 true 才进行缓存 | @Cacheable(value=”testcache”,condition=”#userName.length()>2”) |
 
 1. @CachePut
-    @CachePut 的作用：
-    主要针对方法配置，能够根据方法的请求参数对其结果进行缓存，和 @Cacheable 不同的是，它 **每次都会触发真实方法的调用**
+    也可以标注在类上和方法上，能够根据方法的请求参数对其结果进行缓存，和 @Cacheable 不同的是，它 **每次都会触发真实方法的调用**
     | 参数 | 解释 | example |
     | --- | --- | --- |
     | value | 缓存的名称，在 spring 配置文件中定义，必须指定至少一个 | @CachePut(value=”my cache”) |
@@ -18,8 +24,9 @@
     | condition | 缓存的条件，可以为空，使用 SpEL 编写，返回 true 或者 false，只有为 true 才进行缓存 | 	@CachePut(value=”testcache”,condition=”#userName.length()>2”) |
 
 1. @CacheEvict
-    @CacheEvict 的作用：
-    主要针对方法配置，能够根据一定的条件对缓存进行清空
+    用来标注在需要清除缓存元素的方法或类上的。
+    1. 当标记在一个类上时表示其中所有的方法的执行都会触发缓存的清除操作。
+
     | 参数 | 解释 | example |
     | --- | --- | --- |
     | value | 缓存的名称，在 spring 配置文件中定义，必须指定至少一个 | @CachePut(value=”my cache”) |
@@ -50,18 +57,15 @@
     })
     public User save(User user)
     ```
-    public User save(User user)
-    ```
 
 1. SpEL上下文数据
-
-| 名称 | 位置 | 描述 | 示例 |
-| --- | --- | --- | --- |
-| methodName | root对象 | 当前被调用的方法名 | root.methodName |
-| method | root对象 | 当前被调用的方法 | root.method |
-| target | root对象 | 当前被调用的目标对象 | root.target |
-| targetClass | root对象 | 当前被调用的目标对象类 | root.targetClass |
-| args | root对象 | 当前被调用的方法的参数列表 | root.args[0] |
-| caches | root对象 | 当前方法调用使用的缓存列表（如@Cacheable(value={“cache1”, “cache2”})），则有两个cache | root.caches[0].name |
-| argument name | 执行上下文 | 当前被调用的方法的参数，如findById(Long id)，我们可以通过#id拿到参数 | user.id |
-| result | 执行上下文 | 方法执行后的返回值（仅当方法执行之后的判断有效，如‘unless’，’cache evict’的beforeInvocation=false） | result |
+    | 名称 | 位置 | 描述 | 示例 |
+    | --- | --- | --- | --- |
+    | methodName | root对象 | 当前被调用的方法名 | #root.methodName |
+    | method | root对象 | 当前被调用的方法 | #root.method |
+    | target | root对象 | 当前被调用的目标对象 | #root.target |
+    | targetClass | root对象 | 当前被调用的目标对象类 | #root.targetClass |
+    | args | root对象 | 当前被调用的方法的参数列表 | #root.args[0] |
+    | caches | root对象 | 当前方法调用使用的缓存列表（如@Cacheable(value={“cache1”, “cache2”})），则有两个cache | #root.caches[0].name |
+    | argument name | 执行上下文 | 当前被调用的方法的参数，如findById(Long id)，我们可以通过#id拿到参数 | #user.id |
+    | result | 执行上下文 | 方法执行后的返回值（仅当方法执行之后的判断有效，如‘unless’，’cache evict’的beforeInvocation=false） | #result |
