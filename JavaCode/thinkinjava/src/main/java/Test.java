@@ -1,3 +1,4 @@
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +18,9 @@ public class Test {
 //        tableSizeFor(15);
 
 //        System.out.println(exceptionReturn());
-        System.out.println(testBasic());
+//        System.out.println(testBasic());
+//        reflect();
+        testString();
     }
 
     static final int tableSizeFor(int cap) {
@@ -73,5 +76,23 @@ public class Test {
             System.out.println("finally block i = "+i);
         }
 //        return i;
+    }
+
+    public static void reflect() {
+        Class cls = int.class;
+        Method[] methods = cls.getDeclaredMethods();
+        for (Method method : methods) {
+            System.out.println(method);
+        }
+    }
+
+    public static void testString() {
+        String s1 = new String("aaa");
+        String s2 = new String("aaa");
+        System.out.println(s1 == s2);           // false
+        String s3 = s1.intern();
+        System.out.println(s1.intern() == s3);  // true
+        String s4 = "aaa";
+        System.out.println(s4 == s3);
     }
 }
