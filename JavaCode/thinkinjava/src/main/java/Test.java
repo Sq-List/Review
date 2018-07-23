@@ -1,5 +1,7 @@
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Test {
@@ -20,7 +22,8 @@ public class Test {
 //        System.out.println(exceptionReturn());
 //        System.out.println(testBasic());
 //        reflect();
-        testString();
+//        testString();
+        testConcurrentModificationException();
     }
 
     static final int tableSizeFor(int cap) {
@@ -94,5 +97,16 @@ public class Test {
         System.out.println(s1.intern() == s3);  // true
         String s4 = "aaa";
         System.out.println(s4 == s3);
+    }
+
+    public static void testConcurrentModificationException() {
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        list.add(2);
+        Iterator<Integer> iterator = list.iterator();
+        while(iterator.hasNext()){
+            Integer integer = iterator.next();
+            if(integer==2)
+                list.remove(integer);
+        }
     }
 }
