@@ -15,6 +15,7 @@ public class CountDownLatchDemo {
                 e.printStackTrace();
             } finally {
                 countDownLatch.countDown();
+                System.out.println("123");
             }
         };
 
