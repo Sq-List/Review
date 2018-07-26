@@ -23,7 +23,12 @@ public class Test {
 //        System.out.println(testBasic());
 //        reflect();
 //        testString();
-        testConcurrentModificationException();
+//        testConcurrentModificationException();
+//        System.out.println(ctlOf(-1, 0));
+    }
+
+    static int ctlOf(int rs, int wc) {
+        return rs | wc;
     }
 
     static final int tableSizeFor(int cap) {
