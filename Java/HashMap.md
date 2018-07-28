@@ -112,7 +112,7 @@ final float loadFactor;
 
 ### 三、构造方法
 ```java
-// 返回的值是最接近 cap 的 2的幂
+// 返回的值是最接近的大于 cap 的 2的幂
 // 若cap为9，则返回值为16
 static final int tableSizeFor(int cap) {
     int n = cap - 1;
