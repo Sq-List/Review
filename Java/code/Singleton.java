@@ -3,49 +3,63 @@
  */
 
 // 饿汉模式
-public class Singteton1 {
-    private static INSTANCE = new Singteton1();
+public class Singleton1 {
+    private static final INSTANCE = new Singleton1();
 
-    private Singteton1() {
+    private Singleton1() {
 
     }
 
-    public static getSingteton1() {
+    public static getSingleton1() {
         return INSTANCE;
     }
 }
 
 // 懒汉模式
-public class Singteton2 {
+public class Singleton2 {
     private static INSTANCE;
 
-    private Singteton2() {
+    private Singleton2() {
 
     }
 
-    public static Singteton2 getSingteton2() {
+    public static Singleton2 getSingleton2() {
         if (INSTANCE == null) {
-            INSTANCE = new Singteton2();
+            INSTANCE = new Singleton2();
         }
         return INSTANCE;
     }
 }
 
-public class Singteton3 {
+public class Singleton3 {
     private volatile static INSTANCE;
 
-    private Singteton3() {
+    private Singleton3() {
 
     }
 
-    public static Singteton3 getSingteton3() {
+    public static Singleton3 getSingleton3() {
         if (INSTANCE == null) {
-            synchronized(Singteton3.class) {
+            synchronized(Singleton3.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new Singteton3();
+                    INSTANCE = new Singleton3();
                 }
             }
         }
         return INSTANCE;
+    }
+}
+
+public class Singleton4 {
+    private static class SingletonHolder {
+        private static final Singleton4 INSTANCE = new Singleton4();
+    }
+
+    private Singleton4() {
+
+    }
+
+    public static Singleton4 getSingleton4() {
+        return SingletonHolder.INSTANCE;
     }
 }

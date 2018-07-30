@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Test {
     static final int MAXIMUM_CAPACITY = 1 << 30;
@@ -25,6 +26,14 @@ public class Test {
 //        testString();
 //        testConcurrentModificationException();
 //        System.out.println(ctlOf(-1, 0));
+        testConcurrentHashMap();
+    }
+
+    static void testConcurrentHashMap() {
+        ConcurrentHashMap<Object, Object> concurrentHashMap = new ConcurrentHashMap();
+//        concurrentHashMap.put(null, new Object());
+//        concurrentHashMap.put("123", null);
+//        concurrentHashMap.put(null, null);
     }
 
     static int ctlOf(int rs, int wc) {
