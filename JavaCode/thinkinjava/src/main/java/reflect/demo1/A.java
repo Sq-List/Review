@@ -10,6 +10,10 @@ public class A {
         System.out.println("无参构造");
     }
 
+    public A(Integer g) {
+        System.out.println("有参构造" + g);
+    }
+
     private A(String s) {
         System.out.println("有参构造" + s);
     }
