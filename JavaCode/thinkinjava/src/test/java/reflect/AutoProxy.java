@@ -26,5 +26,7 @@ public class AutoProxy {
         calcDaoProxy.sub(10, 2);
         calcDaoProxy.mul(10, 2);
         calcDaoProxy.div(10, 2);
+
+//        System.out.println(calcDaoProxy.toString());
     }
 }

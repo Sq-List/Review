@@ -16,9 +16,11 @@ public class ConditionDemo {
 
     public static void main(String[] args) {
         Consumer consumer = new Consumer();
+        Consumer consumer1 = new Consumer();
         Producer producer = new Producer();
 
         consumer.start();
+        consumer1.start();
         producer.start();
     }
 
@@ -28,13 +30,13 @@ public class ConditionDemo {
                 lock.lock();
                 try {
                     while (queue.size() == 0) {
-                        System.out.println("队列为空，等待数据");
+                        System.out.println("队列为空，" + Thread.currentThread().getId() + "等待数据");
                         notEmpty.await();
                     }
                     Thread.sleep(1000);
                     queue.poll();
                     notFull.signal();
-                    System.out.println("从队列取走一个元素，队列剩余" + queue.size() + "个元素");
+                    System.out.println(Thread.currentThread().getId() + "从队列取走一个元素，队列剩余" + queue.size() + "个元素");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {

@@ -20,7 +20,56 @@
 			<artifactId>netty-all</artifactId>
 			<version>4.1.6.Final</version>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/cglib/cglib -->
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2.2</version>
+		</dependency>
+
+		<!--4.spring依赖-->
+		<!--1)核心依赖-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>4.3.12.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>4.3.12.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>4.3.12.RELEASE</version>
+		</dependency>
+
+		<!--2)spring dao层依赖-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>4.3.12.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>4.3.12.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>4.3.12.RELEASE</version>
+		</dependency>
+
+		<!--4)spring test相关依赖-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.3.12.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
-
-
 </project>

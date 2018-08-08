@@ -1,3 +1,4 @@
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class Test {
 //        testString();
 //        testConcurrentModificationException();
 //        System.out.println(ctlOf(-1, 0));
-        testConcurrentHashMap();
+//        testConcurrentHashMap();
     }
 
     static void testConcurrentHashMap() {
