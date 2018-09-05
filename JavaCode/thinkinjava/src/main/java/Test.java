@@ -28,6 +28,26 @@ public class Test {
 //        testConcurrentModificationException();
 //        System.out.println(ctlOf(-1, 0));
 //        testConcurrentHashMap();
+
+//        short a = 1;
+//        a = (short) (a + 1);
+
+        Integer i1 = 100;
+        Integer i2 = 100;
+        Integer i3 = 127;
+        Integer i4 = 127;
+        Integer i5 = 128;
+        Integer i6 = 128;
+        Integer i7 = -128;
+        Integer i8 = -128;
+        Integer i9 = -129;
+        Integer i10 = -129;
+
+        System.out.println(i1 == i2);   // true
+        System.out.println(i3 == i4);   // true
+        System.out.println(i5 == i6);   // false
+        System.out.println(i7 == i8);   // true
+        System.out.println(i9 == i10);  // false
     }
 
     static void testConcurrentHashMap() {
