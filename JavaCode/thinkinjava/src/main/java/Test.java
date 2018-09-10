@@ -1,9 +1,6 @@
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Test {
@@ -32,22 +29,26 @@ public class Test {
 //        short a = 1;
 //        a = (short) (a + 1);
 
-        Integer i1 = 100;
-        Integer i2 = 100;
-        Integer i3 = 127;
-        Integer i4 = 127;
-        Integer i5 = 128;
-        Integer i6 = 128;
-        Integer i7 = -128;
-        Integer i8 = -128;
-        Integer i9 = -129;
-        Integer i10 = -129;
+//        ArrayList<Integer> list = new ArrayList<>();
+//        list.add(1);
+//        list.add(2);
+//
+//        Iterator<Integer> integerIterator = list.iterator();
+//        while (integerIterator.hasNext()) {
+//            System.out.println(integerIterator.next());
+//        }
+//
+//        list.add(3);
+//
+//        while (integerIterator.hasNext()) {
+//            System.out.println(integerIterator.next());
+//        }
 
-        System.out.println(i1 == i2);   // true
-        System.out.println(i3 == i4);   // true
-        System.out.println(i5 == i6);   // false
-        System.out.println(i7 == i8);   // true
-        System.out.println(i9 == i10);  // false
+        Item[] items = new Item[10];
+        items[0] = new Item();
+
+        Item[] items1 = Arrays.copyOf(items, 10);
+        System.out.println(items[0] == items1[0]);      // true
     }
 
     static void testConcurrentHashMap() {
@@ -144,4 +145,8 @@ public class Test {
                 list.remove(integer);
         }
     }
+}
+
+class Item {
+
 }
