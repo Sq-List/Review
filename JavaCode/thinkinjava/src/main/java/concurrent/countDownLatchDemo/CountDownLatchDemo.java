@@ -15,13 +15,20 @@ public class CountDownLatchDemo {
                 e.printStackTrace();
             } finally {
                 countDownLatch.countDown();
+            }
+
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
                 System.out.println("123");
             }
         };
 
-        new Thread(runnable).start();
-
-        new Thread(runnable).start();
+//        new Thread(runnable).start();
+//
+//        new Thread(runnable).start();
 
         try {
             System.out.println("等待两个子线程执行完毕");
