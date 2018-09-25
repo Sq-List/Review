@@ -17,14 +17,25 @@ public class MaximumContinuousSubsequenceSum {
 
         int ans = Integer.MIN_VALUE;
         dp[0] = arr[0];
+        int start = 0;
+        int end = 0;
         for (int i = 1; i < arr.length; i++) {
-            dp[i] = Math.max(arr[i], dp[i - 1] + arr[i]);
+            if (arr[i] > dp[i - 1] + arr[i]) {
+                dp[i] = arr[i];
+                start = i;
+            } else {
+                dp[i] = dp[i - 1] + arr[i];
+            }
+
             if (dp[i] > ans) {
                 ans = dp[i];
+                end = i;
             }
         }
 
-//        System.out.println(Arrays.toString(dp));
+        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(dp));
+        System.out.println("start = " + start + ", end = " + end);
 
         return ans;
     }

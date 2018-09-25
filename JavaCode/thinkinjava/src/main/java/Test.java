@@ -2,6 +2,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 public class Test {
     static final int MAXIMUM_CAPACITY = 1 << 30;
@@ -44,11 +45,43 @@ public class Test {
 //            System.out.println(integerIterator.next());
 //        }
 
-        Item[] items = new Item[10];
-        items[0] = new Item();
+//        Item[] items = new Item[10];
+//        items[0] = new Item();
+//
+//        Item[] items1 = Arrays.copyOf(items, 10);
+//        System.out.println(items[0] == items1[0]);      // true
 
-        Item[] items1 = Arrays.copyOf(items, 10);
-        System.out.println(items[0] == items1[0]);      // true
+//        test();
+
+//        new Thread().interrupt();
+//        new Thread().isInterrupted();
+//        Thread.interrupted();
+    }
+
+    public static void test() {
+        App[] apps = new App[5];
+        apps[0] = new App();
+        CountDownLatch countDownLatch = new CountDownLatch(1);
+
+        new Thread(() -> {
+            synchronized (apps[0]) {
+                countDownLatch.countDown();
+                while (true) {
+                }
+            }
+        }).start();
+
+        new Thread(() -> {
+            try {
+                countDownLatch.await();
+                synchronized (apps[0]) {
+                    System.out.println("获取到数组元素的锁");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
     }
 
     static void testConcurrentHashMap() {
@@ -147,6 +180,6 @@ public class Test {
     }
 }
 
-class Item {
+class Item {}
 
-}
+class App {}

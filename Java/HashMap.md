@@ -187,7 +187,7 @@ public void putAll(Map<? extends K, ? extends V> m) {
 /**
  * 把Map<? extends K, ? extends V> m 中的元素插入到 HashMap 中,
  * 若 evict 为 false,代表是在创建 hashMap 时调用了这个函数，
- * 例如利用上述构造函数３创建 hashMap；
+ * 例如利用上述构造函数 3 创建 hashMap；
  * 若 evict 为true,代表是在创建 hashMap 后才调用这个函数，
  * 例如上述的 putAll 函数。
  */

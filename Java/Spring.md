@@ -74,19 +74,19 @@
 
 ### Spring AOP名称
 面向切面编程，在执行业务的前后加入自定义方法，如日志记录、权限拦截。
-* 切面：定义了某任务在何时何处完成功能
-* 通知：切面的工作，定义了任务是什么以及何时完成
-* 切点：定义了何处任务
-* 连接点：即方法名
+* 切面：由切点和增强组成，通常是一个类
+* 增强：织入到目标类连接点上的一段代码及执行点的方位
+* 切点：AOP通过切点来定位特定的连接点，execution(* edu.zust.aoptest.advice1.Business.*(..))
+* 连接点：被拦截到的点，Spring中为 **被拦截的方法**
 * 织入：把切面应到目标对象来创建新的代理对象。分为编译时织入、运行时织入
 * 代理：JDK动态代理或CGLib动态代理
 
 ### Spring AOP实现
 1. AspectJ使用了静态代理，通过生成一个代理类，将advise插入到业务类中，这样业务类在执行时就会回调advise方法，比运行时代理性能更好。
 1. Spring Aop使用了动态代理，在运行时期对业务方法进行增强，所以不会生成新类，Spring提供了JDK动态代理的支持和CGLIB的支持，会去动态的选择用哪种方法。动态代理在使用注解实现时，需要AspectJ的标准注解，而配置文件方式不需要。
-    1. JDK动态代理只能为接口创建动态代理，而不能对类创建，需要使用反射技术获得被代理类的接口信息，生成一个实现此接口的动态代理类（字节码），此代理类实质上是Proxy的子类。先用反射技术(Proxy.newProxyInstance())创建动态代理类的实例对象。
+    1. **默认使用Java动态代理来创建AOP代理。** JDK动态代理只能为接口创建动态代理，而不能对类创建，需要使用反射技术获得被代理类的接口信息，生成一个实现此接口的动态代理类（字节码），此代理类实质上是Proxy的子类。先用反射技术(Proxy.newProxyInstance())创建动态代理类的实例对象。
     新的代理类调用某个接口时，会在内部使用invokehandler.invoke()。invoke内部包括了代理逻辑和通过反射执行真正的method。JDK动态代理会代理接口内的所有方法。
-    1. CGLib可以弥补JDK动态代理只能面向接口的缺点，需要asm包，原理是字节码技术为一个类创建子类。所以不能对final的类或者方法代理。比JDK性能高，但是创建的时间长
+    1. **当需要代理的类不是代理接口的时候，Spring会切换为使用CGLIB代理。** CGLib可以弥补JDK动态代理只能面向接口的缺点，需要asm包，原理是字节码技术为一个类创建子类。所以不能对final的类或者方法代理。比JDK性能高，但是创建的时间长
 
 ### Spring Bean作用域（scope属性）
 * singleton：默认不管收到多少请求，每个容器里只有一个bean示例，单例的模式由beanfactory本身来维护
@@ -109,12 +109,25 @@
 8.bean 可供使用: 此时，bean 已准各就绪，可供应用程序使用，将留在bean工厂中，直到应用程序不再需要它。
 9.销毁bean: 在此步骤中，将销毁bean。如果bean实现DisposableBean 接口，将调用destroy () 方法。然而，如果为bean声明了自定义destroy方法，将调用该方法。
 
+### Spring MVC 流程
+1. 请求发送给dispatchServlet
+1. dispatchServlet收到请求并调用HandlerMapping处理器映射器
+1. HandlerMapping根据url找到对应的处理器Controller，生成处理器对象及拦截器返回给dispatchServlet
+1. dispatchServlet调用HandlerAdapter处理器适配器
+1. HandlerAdapter经过适配调用Controller处理器
+1. Controller执行完成返回ModelAndView
+1. HandlerAdapter将ModelAndView返回给dispatchServlet
+1. dispatchServlet将ModelAndView传给ViewResolver试图解析器
+1. ViewResolver解析后返回具体的View给dispatchServlet
+1. dispatchServlet根据View进行渲染，并填充数据
+1. dispatchServlet响应用户
+
 ### Spring依赖注入
 1. 属性注入
 1. 构造器注入
 1. 工厂注入
 
-可以注入简单值和map、set、list、数组，简单值注入使用＜property＞的value属性
+可以注入简单值和map、set、list、数组，简单值注入使用\<property\>\</property\>的value属性
 ```xml
 <!-- setter通过property 注入属性值，普通类型使用value -->
 <bean id="account" scope="prototype" class="com.zejian.spring.springIoc.pojo.Account" >
@@ -164,8 +177,8 @@ IOC容器将循环依赖分为两种：属性依赖与构造依赖，前者是�
     会发生循环依赖的步骤集中在第一步和第二步。
 * 三级缓存
     * 一级缓存-singletonObjects：存储了单例对象的cache
-    * 二级缓存-earlySingletonObjects：单例对象工厂的cache
-    * 三级缓存-singletonFactories：提前曝光的单例对象的cache
+    * 二级缓存-earlySingletonObjects：提前曝光的单例对象的cache
+    * 三级缓存-singletonFactories：单例对象工厂的cache
 * 过程
     * A首先完成了初始化的第一步，并且将自己提前曝光到singletonFactories（三级缓存）中，此时进行初始化的第二步，发现自己依赖对象B，此时就尝试去get(B)，发现B还没有被create，所以走create流程，B在初始化第一步的时候发现自己依赖了对象A，于是尝试get(A)，尝试一级缓存singletonObjects（肯定没有，因为A还没初始化完全），尝试二级缓存earlySingletonObjects（也没有），尝试三级缓存singletonFactories，由于A通过ObjectFactory将自己提前曝光了，所以B能够通过ObjectFactory.getObject拿到A对象（A还没有初始化完全），B拿到A对象后顺利完成了初始化阶段1、2、3，完全初始化之后将自己放入到一级缓存singletonObjects中。此时返回A中，A此时能拿到B的对象顺利完成自己的初始化阶段2、3，最终A也完成了初始化，进去了一级缓存singletonObjects中。
 

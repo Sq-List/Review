@@ -6,8 +6,6 @@ import java.util.Queue;
 public class SynchronizedWaitNotify {
     private static final int SIZE = 10;
     private static Queue<Integer> queue = new ArrayDeque<>(SIZE);
-    private static Object consumer = new Object();
-    private static Object producer = new Object();
 
     public static void main(String[] args) {
         for (int i = 0; i < 3; i++) {

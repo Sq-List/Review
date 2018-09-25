@@ -38,8 +38,8 @@ public class LockCondition {
                         System.out.println("Consumer " + id + " 等待生产者生产");
                         consumerCondition.await();
                     }
-                    Thread.sleep(3000);
-                    producerCondition.signal();
+//                    Thread.sleep(3000);
+                    producerCondition.signalAll();
                     queue.poll();
                     System.out.println("Consumer " + id + " 消费了一个， 队列中有" + queue.size() + "个");
                 } catch (InterruptedException e) {
@@ -67,8 +67,8 @@ public class LockCondition {
                         System.out.println("Producer " + id + " 等待消费者消费");
                         producerCondition.await();
                     }
-                    Thread.sleep(3000);
-                    consumerCondition.signal();
+//                    Thread.sleep(3000);
+                    consumerCondition.signalAll();
                     queue.offer(1);
                     System.out.println("Producer " + id + " 生产了一个， 队列中有" + queue.size() + "个");
                 } catch (InterruptedException e) {
