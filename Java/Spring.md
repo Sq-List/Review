@@ -103,7 +103,7 @@
 2.填充属性:在此步骤中，bean 工厂容器按照XML配置文件中所指定的通过DI填充所有bean 属性。
 3.设置bean 名称: 在此步骤中，在创建bean 的bean工厂中设置bean 的名称。这是通过将bean 的ID 传递给BeanNameAware 接口提供的setBeanName() 方法来完成的。
 4.设置bean 工厂: 在此步骤中，为bean 提供对管理它的bean工厂的引用。这是使用BeanFactoryAware 接口的setBeanFactory() 方法来完成的。
-5.预初始化: 在此步骤中，您执行在初始化bean 之前需要完成的任务。这是通过在bean类中实现BeanPostProcessor 接口并定义其postProcessBeforeInitialization 方法来完成的。
+5.预初始化: 在此步骤中，执行在初始化bean 之前需要完成的任务。这是通过在bean类中实现BeanPostProcessor 接口并定义其postProcessBeforeInitialization 方法来完成的。
 6.初始化bean: 在此步骤中，您执行某些类型的初始化任务，然后bean 才可供使用。这些任务包括打开文件、打开网络或数据库连接以及分配内存。这是通过在bean 类中实现InitiallzingBean接口并定义其afterPropertiesSet ()方法来完成的。
 7.初始化后: 在此步骤中，您执行在初始化bean之后需要完成的任务。这是通过在bean 类中实现BeanPostProcessor 接口并定义其postProcessAfterInitialization() 方法来完成的。
 8.bean 可供使用: 此时，bean 已准各就绪，可供应用程序使用，将留在bean工厂中，直到应用程序不再需要它。
@@ -188,6 +188,7 @@ IOC容器将循环依赖分为两种：属性依赖与构造依赖，前者是�
 
 ### 事务传播行为 [参考](https://blog.csdn.net/tsj11514oo/article/details/52389124)
 Service接口方法可能会在内部调用其它的Service接口方法以共同完成一个完整的业务操作，因此就会产生服务接口方法嵌套调用的情况， Spring通过事务传播行为控制当前的事务如何传播到被嵌套调用的目标服务接口方法中。
+
 | 传播行为 | 意义 |
 | - | - |
 | PROPAGATION_REQUIRED | 表示当前方法必须运行在一个事务中，如果当前存在一个事务，那么该方法运行在这个事务中，否则，将创建一个新的事务 |
