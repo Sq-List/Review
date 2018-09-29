@@ -124,8 +124,33 @@
 
 ### Spring依赖注入
 1. 属性注入
+```xml
+<bean id="userService" class="com.lyu.spring.service.impl.UserService">
+    <!-- 写法一 -->
+    <!-- <property name="UserDao" ref="userDaoMyBatis"></property> -->
+    <!-- 写法二 -->
+    <property name="userDao" ref="userDaoMyBatis"></property>
+</bean>
+
+<!-- 注册mybatis实现的dao -->
+<bean id="userDaoMyBatis" class="com.lyu.spring.dao.impl.UserDaoMyBatis"></bean>
+```
 1. 构造器注入
+```XML
+<!-- 注册userService -->
+<bean id="userService" class="com.lyu.spring.service.impl.UserService">
+    <constructor-arg ref="userDaoJdbc"></constructor-arg>
+</bean>
+<!-- 注册jdbc实现的dao -->
+<bean id="userDaoJdbc" class="com.lyu.spring.dao.impl.UserDaoJdbc"></bean>
+```
 1. 工厂注入
+```XML
+<bean id="car1" class="com.lzj.spring.beans.factory.StaticFactory"
+        factory-method="getCar">
+        <constructor-arg value="baoma"></constructor-arg>
+    </bean>
+```
 
 可以注入简单值和map、set、list、数组，简单值注入使用\<property\>\</property\>的value属性
 ```xml
